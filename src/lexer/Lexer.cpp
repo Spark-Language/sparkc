@@ -4,6 +4,7 @@
 
 #include "../../include/lexer/Lexer.h"
 #include <cctype>
+#include <iostream>
 #include <stdexcept>
 #include <utility>
 

@@ -10,25 +10,21 @@
 #include <fstream>
 #include <sstream>
 
-static std::string read_file(const std::string& path) {
-    std::ifstream in(path);
-    if (!in) throw std::runtime_error("Could not open file: " + path);
-    std::ostringstream buffer;
-    buffer << in.rdbuf();
-    return buffer.str();
-}
-
 int Commands::run(const std::vector<std::string>& args) {
     if (args.empty()) {
-        std::cerr << "No command provided. Use `spark help`.\n";
+        std::cerr << "No command provided. Use `spark --help`.\n";
         return 1;
     }
 
     const std::string& command = args[0];
 
-    if (command == "--lexer") return run_lexer(args);
-    if (command == "--version") return run_version();
-    if (command == "--help") return run_help();
+    if (command == "--lexer")    return run_lexer(args);
+    if (command == "--parse")    return run_parse(args);
+    if (command == "--check")    return run_check(args);
+    if (command == "--run")      return run_run(args);
+    if (command == "--format")   return run_format(args);
+    if (command == "--version")  return run_version();
+    if (command == "--help")     return run_help();
 
     std::cerr << "Unknown command: " << command << "\n";
     return 1;
@@ -52,17 +48,47 @@ int Commands::run_lexer(const std::vector<std::string>& args) {
     return 0;
 }
 
+int Commands::run_parse(const std::vector<std::string>& args) {
+    return 0;
+}
+
+int Commands::run_check(const std::vector<std::string>& args) {
+    return 0;
+}
+
+int Commands::run_run(const std::vector<std::string>& args) {
+    std::cout << "[run] Command received (stub)\n";
+    return 0;
+}
+
+int Commands::run_format(const std::vector<std::string>& args) {
+    std::cout << "[format] Command received (stub)\n";
+    return 0;
+}
+
 int Commands::run_version() {
     std::cout << "Spark Language Toolchain v0.1.0\n";
     return 0;
 }
 
 int Commands::run_help() {
-    std::cout << "Spark CLI - available commands:\n";
-    std::cout << "  spark --lexer <file>     Tokenize and print tokens from file\n";
-    std::cout << "  spark --version          Show version information\n";
-    std::cout << "  spark --help             Show this help message\n";
+    std::cout << "Spark CLI commands:\n";
+    std::cout << "  --lexer <file>     Tokenize and print tokens\n";
+    std::cout << "  --parse <file>     Parse and dump AST (stub)\n";
+    std::cout << "  --check <file>     Check for syntax and semantic errors (stub)\n";
+    std::cout << "  --run <file>       Run source file (stub)\n";
+    std::cout << "  --format <file>    Format source file (stub)\n";
+    std::cout << "  --version          Show version\n";
+    std::cout << "  --help             Show this help message\n";
     return 0;
+}
+
+std::string Commands::read_file(const std::string& path) {
+    std::ifstream in(path);
+    if (!in) throw std::runtime_error("Could not open file: " + path);
+    std::ostringstream buffer;
+    buffer << in.rdbuf();
+    return buffer.str();
 }
 
 void Commands::print_token_output(const std::string& file) {
