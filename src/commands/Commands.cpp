@@ -102,7 +102,9 @@ void Commands::print_token_output(const std::string& file) {
                   << "Type: " << token_type_to_string(token.type)
                   << " | Lexeme: \"" << token.lexeme << "\"";
 
-        if (std::holds_alternative<int64_t>(token.literal)) {
+        if (std::holds_alternative<char>(token.literal)) {
+            std::cout << " | Literal: \'" << std::get<char>(token.literal) << "\'";
+        } else if (std::holds_alternative<int64_t>(token.literal)) {
             std::cout << " | Literal: " << std::get<int64_t>(token.literal);
         } else if (std::holds_alternative<float>(token.literal)) {
             std::cout << " | Literal: " << std::get<float>(token.literal);

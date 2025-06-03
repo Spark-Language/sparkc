@@ -112,7 +112,7 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::DO:
         case TokenType::BREAK:
         case TokenType::CONTINUE:
-        case TokenType::RET:
+        case TokenType::RETURN:
         case TokenType::YIELD:
         case TokenType::GOTO:
             return TokenCategory::ControlFlow;
@@ -132,8 +132,25 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::MODULE:
         case TokenType::IMPORT:
         case TokenType::USE:
-        case TokenType::INT:
-        case TokenType::FLOAT:
+
+        case TokenType::INT8:
+        case TokenType::INT16:
+        case TokenType::INT32:
+        case TokenType::INT64:
+        case TokenType::INT128:
+
+        case TokenType::UINT8:
+        case TokenType::UINT16:
+        case TokenType::UINT32:
+        case TokenType::UINT64:
+        case TokenType::UINT128:
+
+        case TokenType::FLOAT8:
+        case TokenType::FLOAT16:
+        case TokenType::FLOAT32:
+        case TokenType::FLOAT64:
+        case TokenType::FLOAT128:
+
         case TokenType::DOUBLE:
         case TokenType::BOOLEAN:
         case TokenType::CHAR:
@@ -302,30 +319,47 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::DO: return "DO";
         case TokenType::BREAK: return "BREAK";
         case TokenType::CONTINUE: return "CONTINUE";
-        case TokenType::RET: return "RETURN";
+        case TokenType::RETURN: return "RETURN";
         case TokenType::YIELD: return "YIELD";
         case TokenType::GOTO: return "GOTO";
 
         // DECLARATIONS
         case TokenType::FUNC: return "FUNCTION";
-        case TokenType::VAR: return "VAR";
+        case TokenType::VAR: return "VARIABLE";
         case TokenType::LET: return "LET";
-        case TokenType::CONST: return "CONST";
+        case TokenType::CONST: return "CONSTANT";
         case TokenType::TYPE: return "TYPE";
-        case TokenType::STRUCT: return "STRUCT";
+        case TokenType::STRUCT: return "STRUCTURE";
         case TokenType::CLASS: return "CLASS";
-        case TokenType::INTER: return "INTER";
-        case TokenType::IMPL: return "IMPL";
-        case TokenType::ENUM: return "ENUM";
+        case TokenType::INTER: return "INTERFACE";
+        case TokenType::IMPL: return "IMPLEMENTATION";
+        case TokenType::ENUM: return "ENUMERATOR";
         case TokenType::UNION: return "UNION";
         case TokenType::MODULE: return "MODULE";
         case TokenType::IMPORT: return "IMPORT";
         case TokenType::USE: return "USE";
-        case TokenType::INT: return "INTEGER";
-        case TokenType::FLOAT: return "FLOAT";
+
+        case TokenType::INT8: return "INT8";
+        case TokenType::INT16: return "INT16";
+        case TokenType::INT32: return "INT32";
+        case TokenType::INT64: return "INT64";
+        case TokenType::INT128: return "INT128";
+
+        case TokenType::UINT8: return "UINT8";
+        case TokenType::UINT16: return "UINT16";
+        case TokenType::UINT32: return "UINT32";
+        case TokenType::UINT64: return "UINT64";
+        case TokenType::UINT128: return "UINT128";
+
+        case TokenType::FLOAT8: return "FLOAT8";
+        case TokenType::FLOAT16: return "FLOAT16";
+        case TokenType::FLOAT32: return "FLOAT32";
+        case TokenType::FLOAT64: return "FLOAT64";
+        case TokenType::FLOAT128: return "FLOAT128";
+
         case TokenType::DOUBLE: return "DOUBLE";
         case TokenType::BOOLEAN: return "BOOLEAN";
-        case TokenType::CHAR: return "CHAR";
+        case TokenType::CHAR: return "CHARACTER";
         case TokenType::STRING: return "STRING";
 
         // MODIFIERS / ACCESS

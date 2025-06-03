@@ -7,6 +7,8 @@
 
 #include <string>
 #include <unordered_map>
+#include <variant>
+
 #include "../util/SourceContext.h"
 #include "../tokens/TokenType.h"
 
@@ -36,11 +38,15 @@ private:
 
     Token make_token(TokenType type, const std::string &lexeme, const Literal &literal = {});
 
+    Token make_char_token(TokenType type, const char &lexeme, const Literal &literal = {});
+
     Token identifier();
 
     Token number();
 
     Token string();
+
+    Token character();
 
     [[nodiscard]]
     static TokenType keyword_or_identifier(const std::string &text);

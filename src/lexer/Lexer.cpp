@@ -6,6 +6,7 @@
 #include <cctype>
 #include <iostream>
 #include <stdexcept>
+#include <string.h>
 #include <utility>
 
 Lexer::Lexer(std::string src, const std::string &filename)
@@ -70,6 +71,12 @@ Token Lexer::make_token(TokenType type, const std::string &lexeme, const Literal
     return {type, lexeme, literal, context.line(), context.column()};
 }
 
+Token Lexer::make_char_token(TokenType type, const char &lexeme, const Literal &literal) {
+    char str1[2] = {lexeme, '\0'};
+    char str2[5] = "";
+    return {type, strcpy(str2, str1), literal, context.line(), context.column()};
+}
+
 Token Lexer::next_token() {
     skip_whitespace();
     start = current;
@@ -85,6 +92,7 @@ Token Lexer::next_token() {
 
     switch (c) {
         case '"': return string();
+        case '\'': return character();
         case '+': return make_token(TokenType::PLUS, "+");
         case '-': return match('>') ? make_token(TokenType::ARROW, "->") : make_token(TokenType::MINUS, "-");
         case '*': return make_token(TokenType::STAR, "*");
@@ -98,14 +106,28 @@ Token Lexer::next_token() {
         case ';': return make_token(TokenType::SEMICOLON, ";");
         case ':': return match(':') ? make_token(TokenType::DOUBLE_COLON, "::") : make_token(TokenType::COLON, ":");
         case ',': return make_token(TokenType::COMMA, ",");
-        case '>': return match('=') ? make_token(TokenType::GREATER_EQUAL, ">=") : make_token(TokenType::GREATER, ">");
-        case '<': return match('=') ? make_token(TokenType::LESS_EQUAL, "<=") : make_token(TokenType::LESS, "<");
+        case '>': {
+            if (match('=')) return make_token(TokenType::GREATER_EQUAL, ">=");
+            if (match('>')) return make_token(TokenType::SHIFT_RIGHT, ">>");
+            return make_token(TokenType::GREATER, ">");
+        }
+        case '<': {
+            if (match('=')) return make_token(TokenType::LESS_EQUAL, "<=");
+            if (match('>')) return make_token(TokenType::SHIFT_LEFT, "<<");
+            return make_token(TokenType::LESS, "<");
+        }
         case '.': {
             if (match('.')) {
                 if (match('=')) return make_token(TokenType::RANGE_INCLUSIVE, "..=");
                 return make_token(TokenType::RANGE, "..");
             }
             return make_token(TokenType::DOT, ".");
+        }
+        case '&': {
+            if (match('&')) {
+                return make_token(TokenType::AND, "&&");
+            }
+            return make_token(TokenType::BIT_AND, "&");
         }
 
         default: return make_token(TokenType::UNKNOWN, std::string(1, c));
@@ -185,6 +207,13 @@ Token Lexer::string() {
     return make_token(TokenType::STRING_LITERAL, "\"" + text + "\"", text);
 }
 
+Token Lexer::character() {
+    char c = peek();
+    advance();
+    if (peek() == '\'') advance();
+    return make_char_token(TokenType::CHAR_LITERAL, c, c);
+}
+
 const std::unordered_map<std::string, TokenType> Lexer::keywords = {
     {"as", TokenType::AS},
     {"async", TokenType::ASYNC},
@@ -200,25 +229,47 @@ const std::unordered_map<std::string, TokenType> Lexer::keywords = {
     {"enum", TokenType::ENUM},
     {"Fail", TokenType::FAIL},
     {"false", TokenType::FALSE_VALUE},
-    {"float", TokenType::FLOAT},
+
+    {"float", TokenType::FLOAT64},
+    {"f8", TokenType::FLOAT8},
+    {"f16", TokenType::FLOAT16},
+    {"f32", TokenType::FLOAT32},
+    {"f64", TokenType::FLOAT64},
+    {"f128", TokenType::FLOAT128},
+
     {"for", TokenType::FOR},
     {"func", TokenType::FUNC},
     {"if", TokenType::IF},
     {"impl", TokenType::IMPL},
     {"import", TokenType::IMPORT},
-    {"int", TokenType::INT},
+
+    {"int", TokenType::INT64},
+    {"int8", TokenType::INT8},
+    {"int16", TokenType::INT16},
+    {"int32", TokenType::INT32},
+    {"int64", TokenType::INT64},
+    {"int128", TokenType::INT128},
+
     {"let", TokenType::LET},
     {"match", TokenType::MATCH},
     {"module", TokenType::MODULE},
     {"null", TokenType::NULL_VALUE},
     {"Ok", TokenType::OK},
-    {"ret", TokenType::RET},
+    {"ret", TokenType::RETURN},
     {"string", TokenType::STRING},
     {"struct", TokenType::STRUCT},
     {"super", TokenType::SUPER},
     {"this", TokenType::THIS},
     {"true", TokenType::TRUE_VALUE},
     {"type", TokenType::TYPE},
+
+    {"uint", TokenType::UINT64},
+    {"uint8", TokenType::UINT8},
+    {"uint16", TokenType::UINT16},
+    {"uint32", TokenType::UINT32},
+    {"uint64", TokenType::UINT64},
+    {"uint128", TokenType::UINT128},
+
     {"use", TokenType::USE},
     {"var", TokenType::VAR},
     {"while", TokenType::WHILE},

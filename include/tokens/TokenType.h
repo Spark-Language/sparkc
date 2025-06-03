@@ -102,7 +102,7 @@ enum class TokenType {
     DO,
     BREAK,
     CONTINUE,
-    RET,
+    RETURN,
     YIELD,
     GOTO,
 
@@ -151,8 +151,25 @@ enum class TokenType {
     TRUE_VALUE,
     FALSE_VALUE,
     NULL_VALUE,
-    INT,
-    FLOAT,
+
+    INT8,
+    INT16,
+    INT32,
+    INT64,
+    INT128,
+
+    UINT8,
+    UINT16,
+    UINT32,
+    UINT64,
+    UINT128,
+
+    FLOAT8,
+    FLOAT16,
+    FLOAT32,
+    FLOAT64,
+    FLOAT128,
+
     DOUBLE,
     STRING,
     BOOLEAN,
@@ -167,7 +184,7 @@ enum class TokenType {
 };
 
 // Literal values that tokens may hold
-using Literal = std::variant<std::monostate, int64_t, float, double, bool, std::string>;
+using Literal = std::variant<std::monostate, int64_t, float, double, bool, char, std::string>;
 
 // Core Token structure
 struct Token {
@@ -178,7 +195,8 @@ struct Token {
     int column; // column number in source
 
     Token(TokenType type, std::string lexeme, Literal literal, int line, int column)
-        : type(type), lexeme(std::move(lexeme)), literal(std::move(literal)), line(line), column(column) {
+        : type(type), lexeme(std::move(lexeme)), literal(std::move(literal)), line(line),
+          column(column) {
     }
 };
 
