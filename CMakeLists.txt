@@ -12,4 +12,6 @@ add_executable(sparkc
         src/lexer/Lexer.cpp
         include/lexer/Lexer.h
         src/util/SourceContext.cpp
-        include/util/SourceContext.h)
+        include/util/SourceContext.h
+        src/commands/Commands.cpp
+        include/commands/Commands.h)
