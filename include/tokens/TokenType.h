@@ -12,82 +12,83 @@
 // This enum defines all possible token types the lexer can emit
 enum class TokenType {
     // ===== IDENTIFIERS & LITERALS =====
-    IDENTIFIER,           // variable, function, or type names
-    INT_LITERAL,          // e.g. 42
-    FLOAT_LITERAL,        // e.g. 3.14f
-    DOUBLE_LITERAL,       // e.g. 3.1415926535
-    STRING_LITERAL,       // e.g. "hello"
-    CHAR_LITERAL,         // e.g. 'a'
-    BOOLEAN_LITERAL,      // true or false
-    NULL_LITERAL,         // null, none, or nil
+    IDENTIFIER, // variable, function, or type names
+    INT_LITERAL, // e.g. 42
+    FLOAT_LITERAL, // e.g. 3.14f
+    DOUBLE_LITERAL, // e.g. 3.1415926535
+    STRING_LITERAL, // e.g. "hello"
+    CHAR_LITERAL, // e.g. 'a'
+    BOOLEAN_LITERAL, // true or false
+    NULL_LITERAL, // null, none, or nil
 
     // ===== STRUCTURAL & PUNCTUATION =====
-    LEFT_PAREN,           // (
-    RIGHT_PAREN,          // )
-    LEFT_BRACE,           // {
-    RIGHT_BRACE,          // }
-    LEFT_BRACKET,         // [
-    RIGHT_BRACKET,        // ]
-    COMMA,                // ,
-    DOT,                  // .
-    COLON,                // :
-    SEMICOLON,            // ;
-    ARROW,                // ->
-    FAT_ARROW,            // =>
-    ELLIPSIS,             // ...
-    RANGE,                // ..
-    RANGE_INCLUSIVE,      // ..=
-    QUOTE,                // ""
-    APOSTROPHE,           // ''
+    LEFT_PAREN, // (
+    RIGHT_PAREN, // )
+    LEFT_BRACE, // {
+    RIGHT_BRACE, // }
+    LEFT_BRACKET, // [
+    RIGHT_BRACKET, // ]
+    COMMA, // ,
+    DOT, // .
+    COLON, // :
+    DOUBLE_COLON, // ::
+    SEMICOLON, // ;
+    ARROW, // ->
+    FAT_ARROW, // =>
+    ELLIPSIS, // ...
+    RANGE, // ..
+    RANGE_INCLUSIVE, // ..=
+    QUOTE, // ""
+    APOSTROPHE, // ''
 
     // ===== ARITHMETIC OPERATORS =====
-    PLUS,                 // +
-    MINUS,                // -
-    STAR,                 // *
-    SLASH,                // /
-    MODULO,               // %
+    PLUS, // +
+    MINUS, // -
+    STAR, // *
+    SLASH, // /
+    MODULO, // %
 
     // ===== BITWISE OPERATORS =====
-    BIT_AND,              // &
-    BIT_OR,               // |
-    BIT_XOR,              // ^
-    BIT_NOT,              // ~
-    SHIFT_LEFT,           // <<
-    SHIFT_RIGHT,          // >>
+    BIT_AND, // &
+    BIT_OR, // |
+    BIT_XOR, // ^
+    BIT_NOT, // ~
+    SHIFT_LEFT, // <<
+    SHIFT_RIGHT, // >>
 
     // ===== ASSIGNMENT OPERATORS =====
-    EQUAL,                // =
-    PLUS_EQUAL,           // +=
-    MINUS_EQUAL,          // -=
-    STAR_EQUAL,           // *=
-    SLASH_EQUAL,          // /=
-    MODULO_EQUAL,         // %=
-    AND_EQUAL,            // &=
-    OR_EQUAL,             // |=
-    XOR_EQUAL,            // ^=
-    SHL_EQUAL,            // <<=
-    SHR_EQUAL,            // >>=
+    EQUAL, // =
+    PLUS_EQUAL, // +=
+    MINUS_EQUAL, // -=
+    STAR_EQUAL, // *=
+    SLASH_EQUAL, // /=
+    MODULO_EQUAL, // %=
+    AND_EQUAL, // &=
+    OR_EQUAL, // |=
+    XOR_EQUAL, // ^=
+    SHL_EQUAL, // <<=
+    SHR_EQUAL, // >>=
 
     // ===== COMPARISON OPERATORS =====
-    EQUAL_EQUAL,          // ==
-    NOT_EQUAL,            // !=
-    LESS,                 // <
-    LESS_EQUAL,           // <=
-    GREATER,              // >
-    GREATER_EQUAL,        // >=
+    EQUAL_EQUAL, // ==
+    NOT_EQUAL, // !=
+    LESS, // <
+    LESS_EQUAL, // <=
+    GREATER, // >
+    GREATER_EQUAL, // >=
 
     // ===== LOGICAL OPERATORS =====
-    AND,                  // &&
-    OR,                   // ||
-    NOT,                  // !
+    AND, // &&
+    OR, // ||
+    NOT, // !
 
     // ===== MISC SYMBOLS =====
-    QUESTION,             // ?
-    TILDE,                // ~
+    QUESTION, // ?
+    TILDE, // ~
     BACKSLASH,
-    AT,                   // @
-    HASH,                 // #
-    DOLLAR,               // $
+    AT, // @
+    HASH, // #
+    DOLLAR, // $
 
     // ===== CONTROL FLOW KEYWORDS =====
     IF,
@@ -150,12 +151,35 @@ enum class TokenType {
     TRUE_VALUE,
     FALSE_VALUE,
     NULL_VALUE,
-    OK,                  // for Result types
-    FAIL,                // for Result types
+    INT,
+    FLOAT,
+    DOUBLE,
+    STRING,
+    BOOLEAN,
+    CHAR,
+    OK, // for Result types
+    FAIL, // for Result types
 
     // ===== SPECIAL =====
-    END_OF_FILE,         // signals end of input
-    UNKNOWN              // catch-all for error recovery
+    BUNDLE,
+    END_OF_FILE, // signals end of input
+    UNKNOWN // catch-all for error recovery
+};
+
+// Literal values that tokens may hold
+using Literal = std::variant<std::monostate, int64_t, float, double, bool, std::string>;
+
+// Core Token structure
+struct Token {
+    TokenType type; // what kind of token this is
+    std::string lexeme; // the original source text
+    Literal literal; // optional parsed literal value
+    int line; // line number in source
+    int column; // column number in source
+
+    Token(TokenType type, std::string lexeme, Literal literal, int line, int column)
+        : type(type), lexeme(std::move(lexeme)), literal(std::move(literal)), line(line), column(column) {
+    }
 };
 
 #endif //TOKEN_TYPE_H

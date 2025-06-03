@@ -1,5 +1,5 @@
 //
-// Created by wylan on 6/2/2025.
+// Created by Wylan Shoemaker on 6/2/2025.
 //
 
 #include "../../include/tokens/TokenCategory.h"
@@ -10,7 +10,7 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::IDENTIFIER:
             return TokenCategory::Identifier;
 
-            // LITERALS
+        // LITERALS
         case TokenType::INT_LITERAL:
         case TokenType::FLOAT_LITERAL:
         case TokenType::DOUBLE_LITERAL:
@@ -25,7 +25,7 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::FAIL:
             return TokenCategory::Literal;
 
-            // ARITHMETIC OPERATORS
+        // ARITHMETIC OPERATORS
         case TokenType::PLUS:
         case TokenType::MINUS:
         case TokenType::STAR:
@@ -33,7 +33,7 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::MODULO:
             return TokenCategory::Operator;
 
-            // ASSIGNMENT OPERATORS
+        // ASSIGNMENT OPERATORS
         case TokenType::EQUAL:
         case TokenType::PLUS_EQUAL:
         case TokenType::MINUS_EQUAL:
@@ -47,7 +47,7 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::SHR_EQUAL:
             return TokenCategory::Assignment;
 
-            // COMPARISON
+        // COMPARISON
         case TokenType::EQUAL_EQUAL:
         case TokenType::NOT_EQUAL:
         case TokenType::LESS:
@@ -56,13 +56,13 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::GREATER_EQUAL:
             return TokenCategory::Comparison;
 
-            // LOGICAL
+        // LOGICAL
         case TokenType::AND:
         case TokenType::OR:
         case TokenType::NOT:
             return TokenCategory::Logical;
 
-            // BITWISE
+        // BITWISE
         case TokenType::BIT_AND:
         case TokenType::BIT_OR:
         case TokenType::BIT_XOR:
@@ -71,7 +71,7 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::SHIFT_RIGHT:
             return TokenCategory::Bitwise;
 
-            // GROUPING & PUNCTUATION
+        // GROUPING & PUNCTUATION
         case TokenType::LEFT_PAREN:
         case TokenType::RIGHT_PAREN:
         case TokenType::LEFT_BRACE:
@@ -83,6 +83,7 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::COMMA:
         case TokenType::DOT:
         case TokenType::COLON:
+        case TokenType::DOUBLE_COLON:
         case TokenType::SEMICOLON:
         case TokenType::ARROW:
         case TokenType::FAT_ARROW:
@@ -99,7 +100,7 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::APOSTROPHE:
             return TokenCategory::Punctuation;
 
-            // CONTROL FLOW
+        // CONTROL FLOW
         case TokenType::IF:
         case TokenType::ELSE:
         case TokenType::SWITCH:
@@ -116,7 +117,7 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::GOTO:
             return TokenCategory::ControlFlow;
 
-            // DECLARATIONS
+        // DECLARATIONS
         case TokenType::FUNC:
         case TokenType::VAR:
         case TokenType::LET:
@@ -131,9 +132,15 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::MODULE:
         case TokenType::IMPORT:
         case TokenType::USE:
+        case TokenType::INT:
+        case TokenType::FLOAT:
+        case TokenType::DOUBLE:
+        case TokenType::BOOLEAN:
+        case TokenType::CHAR:
+        case TokenType::STRING:
             return TokenCategory::Declaration;
 
-            // MODIFIERS / ACCESS
+        // MODIFIERS / ACCESS
         case TokenType::INTERNAL:
         case TokenType::STATIC:
         case TokenType::ABSTRACT:
@@ -144,14 +151,14 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::MUT:
             return TokenCategory::Modifier;
 
-            // CONCURRENCY
+        // CONCURRENCY
         case TokenType::ASYNC:
         case TokenType::AWAIT:
         case TokenType::SPAWN:
         case TokenType::THREAD:
             return TokenCategory::Concurrency;
 
-            // TYPE SYSTEM
+        // TYPE SYSTEM
         case TokenType::AS:
         case TokenType::IS:
         case TokenType::TYPEOF:
@@ -161,11 +168,12 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::SUPER:
             return TokenCategory::TypeSystem;
 
-            // SPECIAL
+        // SPECIAL
+        case TokenType::BUNDLE:
         case TokenType::END_OF_FILE:
             return TokenCategory::Special;
 
-            // UNKNOWN
+        // UNKNOWN
         case TokenType::UNKNOWN:
         default:
             return TokenCategory::Unknown;
@@ -174,24 +182,24 @@ TokenCategory get_token_category(TokenType type) {
 
 std::string_view category_to_string(TokenCategory category) {
     switch (category) {
-        case TokenCategory::Identifier:     return "Identifier";
-        case TokenCategory::Literal:        return "Literal";
-        case TokenCategory::Operator:       return "Operator";
-        case TokenCategory::Keyword:        return "Keyword";
-        case TokenCategory::Punctuation:    return "Punctuation";
-        case TokenCategory::Grouping:       return "Grouping";
-        case TokenCategory::Assignment:     return "Assignment";
-        case TokenCategory::Comparison:     return "Comparison";
-        case TokenCategory::Logical:        return "Logical";
-        case TokenCategory::Bitwise:        return "Bitwise";
-        case TokenCategory::Modifier:       return "Modifier";
-        case TokenCategory::ControlFlow:    return "ControlFlow";
-        case TokenCategory::Declaration:    return "Declaration";
-        case TokenCategory::TypeSystem:     return "TypeSystem";
-        case TokenCategory::Concurrency:    return "Concurrency";
-        case TokenCategory::Special:        return "Special";
-        case TokenCategory::Unknown:        return "Unknown";
-        default:                            return "Invalid";
+        case TokenCategory::Identifier: return "Identifier";
+        case TokenCategory::Literal: return "Literal";
+        case TokenCategory::Operator: return "Operator";
+        case TokenCategory::Keyword: return "Keyword";
+        case TokenCategory::Punctuation: return "Punctuation";
+        case TokenCategory::Grouping: return "Grouping";
+        case TokenCategory::Assignment: return "Assignment";
+        case TokenCategory::Comparison: return "Comparison";
+        case TokenCategory::Logical: return "Logical";
+        case TokenCategory::Bitwise: return "Bitwise";
+        case TokenCategory::Modifier: return "Modifier";
+        case TokenCategory::ControlFlow: return "ControlFlow";
+        case TokenCategory::Declaration: return "Declaration";
+        case TokenCategory::TypeSystem: return "TypeSystem";
+        case TokenCategory::Concurrency: return "Concurrency";
+        case TokenCategory::Special: return "Special";
+        case TokenCategory::Unknown: return "Unknown";
+        default: return "Invalid";
     }
 }
 
@@ -200,7 +208,7 @@ std::string_view token_type_to_string(TokenType type) {
         // IDENTIFIERS
         case TokenType::IDENTIFIER: return "IDENTIFIER";
 
-            // LITERALS
+        // LITERALS
         case TokenType::INT_LITERAL: return "INT_LITERAL";
         case TokenType::FLOAT_LITERAL: return "FLOAT_LITERAL";
         case TokenType::DOUBLE_LITERAL: return "DOUBLE_LITERAL";
@@ -214,14 +222,14 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::OK: return "OK";
         case TokenType::FAIL: return "FAIL";
 
-            // ARITHMETIC OPERATORS
+        // ARITHMETIC OPERATORS
         case TokenType::PLUS: return "PLUS";
         case TokenType::MINUS: return "MINUS";
         case TokenType::STAR: return "STAR";
         case TokenType::SLASH: return "SLASH";
         case TokenType::MODULO: return "MODULO";
 
-            // ASSIGNMENT OPERATORS
+        // ASSIGNMENT OPERATORS
         case TokenType::EQUAL: return "EQUAL";
         case TokenType::PLUS_EQUAL: return "PLUS_EQUAL";
         case TokenType::MINUS_EQUAL: return "MINUS_EQUAL";
@@ -234,7 +242,7 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::SHL_EQUAL: return "SHL_EQUAL";
         case TokenType::SHR_EQUAL: return "SHR_EQUAL";
 
-            // COMPARISON
+        // COMPARISON
         case TokenType::EQUAL_EQUAL: return "EQUAL_EQUAL";
         case TokenType::NOT_EQUAL: return "NOT_EQUAL";
         case TokenType::LESS: return "LESS";
@@ -242,12 +250,12 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::GREATER: return "GREATER";
         case TokenType::GREATER_EQUAL: return "GREATER_EQUAL";
 
-            // LOGICAL
+        // LOGICAL
         case TokenType::AND: return "AND";
         case TokenType::OR: return "OR";
         case TokenType::NOT: return "NOT";
 
-            // BITWISE
+        // BITWISE
         case TokenType::BIT_AND: return "BIT_AND";
         case TokenType::BIT_OR: return "BIT_OR";
         case TokenType::BIT_XOR: return "BIT_XOR";
@@ -255,7 +263,7 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::SHIFT_LEFT: return "SHIFT_LEFT";
         case TokenType::SHIFT_RIGHT: return "SHIFT_RIGHT";
 
-            // GROUPING & PUNCTUATION
+        // GROUPING & PUNCTUATION
         case TokenType::LEFT_PAREN: return "LEFT_PAREN";
         case TokenType::RIGHT_PAREN: return "RIGHT_PAREN";
         case TokenType::LEFT_BRACE: return "LEFT_BRACE";
@@ -266,6 +274,7 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::COMMA: return "COMMA";
         case TokenType::DOT: return "DOT";
         case TokenType::COLON: return "COLON";
+        case TokenType::DOUBLE_COLON: return "DOUBLE_COLON";
         case TokenType::SEMICOLON: return "SEMICOLON";
         case TokenType::ARROW: return "ARROW";
         case TokenType::FAT_ARROW: return "FAT_ARROW";
@@ -281,7 +290,7 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::QUOTE: return "QUOTE";
         case TokenType::APOSTROPHE: return "APOSTROPHE";
 
-            // CONTROL FLOW
+        // CONTROL FLOW
         case TokenType::IF: return "IF";
         case TokenType::ELSE: return "ELSE";
         case TokenType::SWITCH: return "SWITCH";
@@ -293,12 +302,12 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::DO: return "DO";
         case TokenType::BREAK: return "BREAK";
         case TokenType::CONTINUE: return "CONTINUE";
-        case TokenType::RET: return "RET";
+        case TokenType::RET: return "RETURN";
         case TokenType::YIELD: return "YIELD";
         case TokenType::GOTO: return "GOTO";
 
-            // DECLARATIONS
-        case TokenType::FUNC: return "FUNC";
+        // DECLARATIONS
+        case TokenType::FUNC: return "FUNCTION";
         case TokenType::VAR: return "VAR";
         case TokenType::LET: return "LET";
         case TokenType::CONST: return "CONST";
@@ -312,8 +321,14 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::MODULE: return "MODULE";
         case TokenType::IMPORT: return "IMPORT";
         case TokenType::USE: return "USE";
+        case TokenType::INT: return "INTEGER";
+        case TokenType::FLOAT: return "FLOAT";
+        case TokenType::DOUBLE: return "DOUBLE";
+        case TokenType::BOOLEAN: return "BOOLEAN";
+        case TokenType::CHAR: return "CHAR";
+        case TokenType::STRING: return "STRING";
 
-            // MODIFIERS / ACCESS
+        // MODIFIERS / ACCESS
         case TokenType::INTERNAL: return "INTERNAL";
         case TokenType::STATIC: return "STATIC";
         case TokenType::ABSTRACT: return "ABSTRACT";
@@ -323,13 +338,13 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::INLINE: return "INLINE";
         case TokenType::MUT: return "MUT";
 
-            // CONCURRENCY
+        // CONCURRENCY
         case TokenType::ASYNC: return "ASYNC";
         case TokenType::AWAIT: return "AWAIT";
         case TokenType::SPAWN: return "SPAWN";
         case TokenType::THREAD: return "THREAD";
 
-            // TYPE SYSTEM
+        // TYPE SYSTEM
         case TokenType::AS: return "AS";
         case TokenType::IS: return "IS";
         case TokenType::TYPEOF: return "TYPEOF";
@@ -338,10 +353,11 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::THIS: return "THIS";
         case TokenType::SUPER: return "SUPER";
 
-            // SPECIAL
+        // SPECIAL
+        case TokenType::BUNDLE: return "BUNDLE";
         case TokenType::END_OF_FILE: return "END_OF_FILE";
 
-            // UNKNOWN
+        // UNKNOWN
         case TokenType::UNKNOWN: return "UNKNOWN";
         default: return "UNRECOGNIZED";
     }

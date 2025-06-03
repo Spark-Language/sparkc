@@ -36,3 +36,7 @@
 .git
 cmake-build-debug
 .DS_Store
+
+# Spark Test Files
+*.spk
+*.spark

@@ -28,7 +28,9 @@ enum class TokenCategory {
 };
 
 TokenCategory get_token_category(TokenType type);
+
 std::string_view category_to_string(TokenCategory category);
+
 std::string_view token_type_to_string(TokenType type);
 
 #endif //TOKEN_CATEGORY_H
