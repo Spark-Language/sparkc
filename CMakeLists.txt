@@ -4,5 +4,7 @@ project(sparkc)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(sparkc src/main.cpp
-        src/tokens/TokenDef.cpp
-        include/tokens/TokenDef.h)
+        src/tokens/TokenType.cpp
+        include/tokens/TokenType.h
+        src/tokens/TokenCategory.cpp
+        include/tokens/TokenCategory.h)
