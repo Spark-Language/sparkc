@@ -13,8 +13,22 @@
 enum class TokenType {
     // ===== IDENTIFIERS & LITERALS =====
     IDENTIFIER, // variable, function, or type names
-    INT_LITERAL, // e.g. 42
-    FLOAT_LITERAL, // e.g. 3.14f
+
+    INT8_LITERAL,
+    INT16_LITERAL,
+    INT32_LITERAL,
+    INT64_LITERAL,// e.g. 42
+
+    UINT8_LITERAL,
+    UINT16_LITERAL,
+    UINT32_LITERAL,
+    UINT64_LITERAL,
+
+    FLOAT8_LITERAL,
+    FLOAT16_LITERAL,
+    FLOAT32_LITERAL,
+    FLOAT64_LITERAL, // e.g. 3.14f
+
     DOUBLE_LITERAL, // e.g. 3.1415926535
     STRING_LITERAL, // e.g. "hello"
     CHAR_LITERAL, // e.g. 'a'
@@ -121,8 +135,11 @@ enum class TokenType {
     MODULE,
     IMPORT,
     USE,
+    ATOMIC,
 
     // ===== ACCESS CONTROL & MODIFIERS =====
+    PUBLIC,
+    PRIVATE,
     INTERNAL,
     STATIC,
     ABSTRACT,

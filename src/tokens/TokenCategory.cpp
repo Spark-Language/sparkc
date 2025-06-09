@@ -11,8 +11,21 @@ TokenCategory get_token_category(TokenType type) {
             return TokenCategory::Identifier;
 
         // LITERALS
-        case TokenType::INT_LITERAL:
-        case TokenType::FLOAT_LITERAL:
+        case TokenType::INT8_LITERAL:
+        case TokenType::INT16_LITERAL:
+        case TokenType::INT32_LITERAL:
+        case TokenType::INT64_LITERAL:
+
+        case TokenType::UINT8_LITERAL:
+        case TokenType::UINT16_LITERAL:
+        case TokenType::UINT32_LITERAL:
+        case TokenType::UINT64_LITERAL:
+
+        case TokenType::FLOAT8_LITERAL:
+        case TokenType::FLOAT16_LITERAL:
+        case TokenType::FLOAT32_LITERAL:
+        case TokenType::FLOAT64_LITERAL:
+
         case TokenType::DOUBLE_LITERAL:
         case TokenType::STRING_LITERAL:
         case TokenType::CHAR_LITERAL:
@@ -132,6 +145,7 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::MODULE:
         case TokenType::IMPORT:
         case TokenType::USE:
+        case TokenType::ATOMIC:
 
         case TokenType::INT8:
         case TokenType::INT16:
@@ -158,6 +172,8 @@ TokenCategory get_token_category(TokenType type) {
             return TokenCategory::Declaration;
 
         // MODIFIERS / ACCESS
+        case TokenType::PUBLIC:
+        case TokenType::PRIVATE:
         case TokenType::INTERNAL:
         case TokenType::STATIC:
         case TokenType::ABSTRACT:
@@ -226,8 +242,21 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::IDENTIFIER: return "IDENTIFIER";
 
         // LITERALS
-        case TokenType::INT_LITERAL: return "INT_LITERAL";
-        case TokenType::FLOAT_LITERAL: return "FLOAT_LITERAL";
+        case TokenType::INT8_LITERAL: return "INT8_LITERAL";
+        case TokenType::INT16_LITERAL: return "INT16_LITERAL";
+        case TokenType::INT32_LITERAL: return "INT32_LITERAL";
+        case TokenType::INT64_LITERAL: return "INT64_LITERAL";
+
+        case TokenType::UINT8_LITERAL: return "UINT8_LITERAL";
+        case TokenType::UINT16_LITERAL: return "UINT16_LITERAL";
+        case TokenType::UINT32_LITERAL: return "UINT32_LITERAL";
+        case TokenType::UINT64_LITERAL: return "UINT64_LITERAL";
+
+        case TokenType::FLOAT8_LITERAL: return "FLOAT8_LITERAL";
+        case TokenType::FLOAT16_LITERAL: return "FLOAT16_LITERAL";
+        case TokenType::FLOAT32_LITERAL: return "FLOAT32_LITERAL";
+        case TokenType::FLOAT64_LITERAL: return "FLOAT64_LITERAL";
+
         case TokenType::DOUBLE_LITERAL: return "DOUBLE_LITERAL";
         case TokenType::STRING_LITERAL: return "STRING_LITERAL";
         case TokenType::CHAR_LITERAL: return "CHAR_LITERAL";
@@ -338,6 +367,7 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::MODULE: return "MODULE";
         case TokenType::IMPORT: return "IMPORT";
         case TokenType::USE: return "USE";
+        case TokenType::ATOMIC: return "ATOMIC";
 
         case TokenType::INT8: return "INT8";
         case TokenType::INT16: return "INT16";
@@ -363,6 +393,8 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::STRING: return "STRING";
 
         // MODIFIERS / ACCESS
+        case TokenType::PUBLIC: return "PUBLIC";
+        case TokenType::PRIVATE: return "PRIVATE";
         case TokenType::INTERNAL: return "INTERNAL";
         case TokenType::STATIC: return "STATIC";
         case TokenType::ABSTRACT: return "ABSTRACT";

@@ -36,9 +36,15 @@ private:
 
     void skip_comment();
 
+    void skip_block_comment();
+
+    void skip_documentation_comment();
+
     Token make_token(TokenType type, const std::string &lexeme, const Literal &literal = {});
 
     Token make_char_token(TokenType type, const char &lexeme, const Literal &literal = {});
+
+    Token makeNumberTokenFromSuffix(const std::string& text, const std::string& numericPart, const std::string& suffix, bool hasDot);
 
     Token identifier();
 
