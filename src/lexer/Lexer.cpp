@@ -54,14 +54,16 @@ void Lexer::skip_whitespace() {
             case '/':
                 if (peek_next() == '/') {
                     skip_comment();
+                    break;
                 }
 
                 if (peek_next() == '*') {
                     if (peek_next() == '*') skip_documentation_comment();
                     else skip_block_comment();
+                    break;
                 }
 
-                break;
+                return;
             default:
                 return;
         }
@@ -120,11 +122,36 @@ Token Lexer::next_token() {
     switch (c) {
         case '"': return string();
         case '\'': return character();
-        case '+': return make_token(TokenType::PLUS, "+");
-        case '-': return match('>') ? make_token(TokenType::ARROW, "->") : make_token(TokenType::MINUS, "-");
-        case '*': return make_token(TokenType::STAR, "*");
-        case '/': return make_token(TokenType::SLASH, "/");
-        case '=': return match('=') ? make_token(TokenType::EQUAL_EQUAL, "==") : make_token(TokenType::EQUAL, "=");
+        case '+': {
+            if (match('=')) return make_token(TokenType::PLUS_EQUAL, "+=");
+            return make_token(TokenType::PLUS, "+");
+        }
+        case '-': {
+            if (match('=')) return make_token(TokenType::MINUS_EQUAL, "-=");
+            if (match('>')) return make_token(TokenType::ARROW, "->");
+            return make_token(TokenType::MINUS, "-");
+        }
+        case '*': {
+            if (match('=')) return make_token(TokenType::STAR_EQUAL, "*=");
+            return make_token(TokenType::STAR, "*");
+        }
+        case '/': {
+            if (match('=')) return make_token(TokenType::SLASH_EQUAL, "/=");
+            return make_token(TokenType::SLASH, "/");
+        }
+        case '=': {
+            if (match('=')) return make_token(TokenType::EQUAL_EQUAL, "==");
+            if (match('>')) return make_token(TokenType::FAT_ARROW, "=>");
+            return make_token(TokenType::EQUAL, "=");
+        }
+        case '%': {
+            if (match('=')) return make_token(TokenType::MODULO_EQUAL, "%=");
+            return make_token(TokenType::MODULO, "%");
+        }
+        case '^': {
+            if (match('=')) return make_token(TokenType::XOR_EQUAL, "^=");
+            return make_token(TokenType::BIT_XOR, "^");
+        }
         case '!': return match('=') ? make_token(TokenType::NOT_EQUAL, "!=") : make_token(TokenType::NOT, "!");
         case '?': return make_token(TokenType::QUESTION, "?");
         case '(': return make_token(TokenType::LEFT_PAREN, "(");
@@ -138,16 +165,23 @@ Token Lexer::next_token() {
         case ',': return make_token(TokenType::COMMA, ",");
         case '|': {
             if (match('|')) return make_token(TokenType::OR, "||");
+            if (match('=')) return make_token(TokenType::OR_EQUAL, "|=");
             return make_token(TokenType::BIT_AND, "|");
         }
         case '>': {
             if (match('=')) return make_token(TokenType::GREATER_EQUAL, ">=");
-            if (match('>')) return make_token(TokenType::SHIFT_RIGHT, ">>");
+            if (match('>')) {
+                if (match('=')) return make_token(TokenType::SHR_EQUAL, ">>=");
+                return make_token(TokenType::SHIFT_RIGHT, ">>");
+            }
             return make_token(TokenType::GREATER, ">");
         }
         case '<': {
             if (match('=')) return make_token(TokenType::LESS_EQUAL, "<=");
-            if (match('>')) return make_token(TokenType::SHIFT_LEFT, "<<");
+            if (match('<')) {
+                if (match('=')) return make_token(TokenType::SHL_EQUAL, "<<=");
+                return make_token(TokenType::SHIFT_LEFT, "<<");
+            }
             return make_token(TokenType::LESS, "<");
         }
         case '.': {
@@ -159,11 +193,15 @@ Token Lexer::next_token() {
             return make_token(TokenType::DOT, ".");
         }
         case '&': {
-            if (match('&')) {
-                return make_token(TokenType::AND, "&&");
-            }
+            if (match('&')) return make_token(TokenType::AND, "&&");
+            if (match('=')) return make_token(TokenType::AND_EQUAL, "=");
             return make_token(TokenType::BIT_AND, "&");
         }
+        case '~': return make_token(TokenType::TILDE, "~");
+        case '\\': return make_token(TokenType::BACKSLASH, "\\");
+        case '@': return make_token(TokenType::AT, "@");
+        case '#': return make_token(TokenType::HASH, "#");
+        case '$': return make_token(TokenType::DOLLAR, "$"); // TODO: Probably wont stay
 
         default: return make_token(TokenType::UNKNOWN, std::string(1, c));
     }
@@ -214,7 +252,8 @@ Token Lexer::number() {
     // no leading/trailing underscores
     if (rawNumericPart.front() == '_' ||
         rawNumericPart.back()  == '_') {
-        // TODO: should probably thrown an error
+            // TODO: should probably thrown an error
+            return identifier();
         }
 
     // strip ALL underscores before parsing
@@ -247,16 +286,20 @@ Token Lexer::character() {
 }
 
 const std::unordered_map<std::string, TokenType> Lexer::keywords = {
+    {"abstract", TokenType::ABSTRACT},
     {"as", TokenType::AS},
     {"async", TokenType::ASYNC},
     {"await", TokenType::AWAIT},
     {"bool", TokenType::BOOLEAN},
     {"break", TokenType::BREAK},
     {"bundle", TokenType::BUNDLE},
+    {"case", TokenType::CASE},
     {"char", TokenType::CHAR},
     {"class", TokenType::CLASS},
     {"const", TokenType::CONST},
     {"continue", TokenType::CONTINUE},
+    {"default", TokenType::DEFAULT},
+    {"do", TokenType::DO},
     {"double", TokenType::DOUBLE},
     {"else", TokenType::ELSE},
     {"enum", TokenType::ENUM},
@@ -269,7 +312,6 @@ const std::unordered_map<std::string, TokenType> Lexer::keywords = {
     {"f16", TokenType::FLOAT16},
     {"f32", TokenType::FLOAT32},
     {"f64", TokenType::FLOAT64},
-    {"f128", TokenType::FLOAT128},
 
     {"for", TokenType::FOR},
     {"func", TokenType::FUNC},
@@ -277,39 +319,50 @@ const std::unordered_map<std::string, TokenType> Lexer::keywords = {
     {"impl", TokenType::IMPL},
     {"import", TokenType::IMPORT},
 
+    {"goto", TokenType::GOTO},
+    {"inline", TokenType::INLINE},
+
     {"int", TokenType::INT64},
     {"i8", TokenType::INT8},
     {"i16", TokenType::INT16},
     {"i32", TokenType::INT32},
     {"i64", TokenType::INT64},
-    {"i128", TokenType::INT128},
 
+    {"inter", TokenType::INTER},
     {"internal", TokenType::INTERNAL},
+    {"is", TokenType::IS},
     {"let", TokenType::LET},
     {"match", TokenType::MATCH},
     {"module", TokenType::MODULE},
+    {"new", TokenType::NEW},
     {"null", TokenType::NULL_VALUE},
     {"Ok", TokenType::OK},
+    {"override", TokenType::OVERRIDE},
     {"private", TokenType::PRIVATE},
     {"public", TokenType::PUBLIC},
     {"ret", TokenType::RETURN},
+    {"sizeof", TokenType::SIZEOF},
+    {"spawn", TokenType::SPAWN},
+    {"static", TokenType::STATIC},
     {"string", TokenType::STRING},
     {"struct", TokenType::STRUCT},
     {"super", TokenType::SUPER},
     {"this", TokenType::THIS},
+    {"thread", TokenType::THREAD},
     {"true", TokenType::TRUE_VALUE},
     {"type", TokenType::TYPE},
+    {"typeof", TokenType::TYPEOF},
 
     {"uint", TokenType::UINT64},
     {"u8", TokenType::UINT8},
     {"u16", TokenType::UINT16},
     {"u32", TokenType::UINT32},
     {"u64", TokenType::UINT64},
-    {"u128", TokenType::UINT128},
 
     {"use", TokenType::USE},
     {"atomic", TokenType::ATOMIC},
     {"var", TokenType::VAR},
+    {"virtual", TokenType::VIRTUAL},
     {"while", TokenType::WHILE},
     {"yield", TokenType::YIELD},
 };

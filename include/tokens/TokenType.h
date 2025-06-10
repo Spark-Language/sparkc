@@ -9,6 +9,8 @@
 #include <variant>
 #include <cstdint>
 
+#include "../visibility/Visibility.h"
+
 // This enum defines all possible token types the lexer can emit
 enum class TokenType {
     // ===== IDENTIFIERS & LITERALS =====
@@ -66,7 +68,6 @@ enum class TokenType {
     BIT_AND, // &
     BIT_OR, // |
     BIT_XOR, // ^
-    BIT_NOT, // ~
     SHIFT_LEFT, // <<
     SHIFT_RIGHT, // >>
 
@@ -147,7 +148,6 @@ enum class TokenType {
     OVERRIDE,
     VIRTUAL,
     INLINE,
-    MUT,
 
     // ===== CONCURRENCY & ASYNC =====
     ASYNC,
@@ -173,19 +173,16 @@ enum class TokenType {
     INT16,
     INT32,
     INT64,
-    INT128,
 
     UINT8,
     UINT16,
     UINT32,
     UINT64,
-    UINT128,
 
     FLOAT8,
     FLOAT16,
     FLOAT32,
     FLOAT64,
-    FLOAT128,
 
     DOUBLE,
     STRING,
@@ -211,9 +208,11 @@ struct Token {
     int line; // line number in source
     int column; // column number in source
 
-    Token(TokenType type, std::string lexeme, Literal literal, int line, int column)
+    Visibility visibility = Visibility::Private;
+
+    Token(TokenType type, std::string lexeme, Literal literal, int line, int column, Visibility visibility = Visibility::Private)
         : type(type), lexeme(std::move(lexeme)), literal(std::move(literal)), line(line),
-          column(column) {
+          column(column), visibility(visibility) {
     }
 };
 

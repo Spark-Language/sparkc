@@ -14,4 +14,6 @@ add_executable(sparkc
         src/util/SourceContext.cpp
         include/util/SourceContext.h
         src/commands/Commands.cpp
-        include/commands/Commands.h)
+        include/commands/Commands.h
+        src/visibility/Visibility.cpp
+        include/visibility/Visibility.h)

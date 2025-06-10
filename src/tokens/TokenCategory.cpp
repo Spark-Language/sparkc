@@ -79,7 +79,6 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::BIT_AND:
         case TokenType::BIT_OR:
         case TokenType::BIT_XOR:
-        case TokenType::BIT_NOT:
         case TokenType::SHIFT_LEFT:
         case TokenType::SHIFT_RIGHT:
             return TokenCategory::Bitwise;
@@ -151,19 +150,16 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::INT16:
         case TokenType::INT32:
         case TokenType::INT64:
-        case TokenType::INT128:
 
         case TokenType::UINT8:
         case TokenType::UINT16:
         case TokenType::UINT32:
         case TokenType::UINT64:
-        case TokenType::UINT128:
 
         case TokenType::FLOAT8:
         case TokenType::FLOAT16:
         case TokenType::FLOAT32:
         case TokenType::FLOAT64:
-        case TokenType::FLOAT128:
 
         case TokenType::DOUBLE:
         case TokenType::BOOLEAN:
@@ -181,7 +177,6 @@ TokenCategory get_token_category(TokenType type) {
         case TokenType::OVERRIDE:
         case TokenType::VIRTUAL:
         case TokenType::INLINE:
-        case TokenType::MUT:
             return TokenCategory::Modifier;
 
         // CONCURRENCY
@@ -305,7 +300,6 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::BIT_AND: return "BIT_AND";
         case TokenType::BIT_OR: return "BIT_OR";
         case TokenType::BIT_XOR: return "BIT_XOR";
-        case TokenType::BIT_NOT: return "BIT_NOT";
         case TokenType::SHIFT_LEFT: return "SHIFT_LEFT";
         case TokenType::SHIFT_RIGHT: return "SHIFT_RIGHT";
 
@@ -373,19 +367,16 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::INT16: return "INT16";
         case TokenType::INT32: return "INT32";
         case TokenType::INT64: return "INT64";
-        case TokenType::INT128: return "INT128";
 
         case TokenType::UINT8: return "UINT8";
         case TokenType::UINT16: return "UINT16";
         case TokenType::UINT32: return "UINT32";
         case TokenType::UINT64: return "UINT64";
-        case TokenType::UINT128: return "UINT128";
 
         case TokenType::FLOAT8: return "FLOAT8";
         case TokenType::FLOAT16: return "FLOAT16";
         case TokenType::FLOAT32: return "FLOAT32";
         case TokenType::FLOAT64: return "FLOAT64";
-        case TokenType::FLOAT128: return "FLOAT128";
 
         case TokenType::DOUBLE: return "DOUBLE";
         case TokenType::BOOLEAN: return "BOOLEAN";
@@ -402,7 +393,6 @@ std::string_view token_type_to_string(TokenType type) {
         case TokenType::OVERRIDE: return "OVERRIDE";
         case TokenType::VIRTUAL: return "VIRTUAL";
         case TokenType::INLINE: return "INLINE";
-        case TokenType::MUT: return "MUT";
 
         // CONCURRENCY
         case TokenType::ASYNC: return "ASYNC";
