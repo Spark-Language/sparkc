@@ -16,4 +16,13 @@ add_executable(sparkc
         src/commands/Commands.cpp
         include/commands/Commands.h
         src/visibility/Visibility.cpp
-        include/visibility/Visibility.h)
+        include/visibility/Visibility.h
+        src/parser/Parser.cpp
+        include/parser/Parser.h
+        src/ast/AST.cpp
+        include/ast/AST.h
+        include/types/Statement.h
+        include/types/Expression.h
+        include/types/Expressions.h
+        include/types/Statements.h
+        include/types/Declarations.h)
